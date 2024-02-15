@@ -1,30 +1,5 @@
-import { useEffect, useState } from "react";
-import { fetchData } from "./../utilities/fetchData";
 
-export default function GetData() {
-  const [data, setData] = useState({ articles: [] });
-
-  useEffect(() => {
-    let ignore = false;
-
-    async function startFetching() {
-      try {
-        const json = await fetchData();
-        if (!ignore) {
-          setData(json);
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    }
-
-    startFetching();
-
-    return () => {
-      ignore = true;
-    };
-  }, []);
-
+export default function GetData({data}) {
   return (
     <>
       {/* main */}
@@ -67,7 +42,7 @@ export default function GetData() {
                   <img
                     className="w-full"
                     src={
-                      index === 0 ? "./assets/thumb_lg.png" : article.urlToImage
+                     article.urlToImage
                     }
                     alt="news"
                   />
@@ -85,7 +60,7 @@ export default function GetData() {
                   {!index && (
                     <img
                       className="w-full"
-                      src="./assets/thumb.png"
+                      src={article.urlToImage}
                       alt="thumb"
                     />
                   )}
@@ -108,7 +83,7 @@ export default function GetData() {
           </div>
         </div>
       </main>
-                    
+
     </>
   );
 }

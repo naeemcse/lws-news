@@ -1,6 +1,34 @@
 import React from "react";
-
+import { useEffect, useState } from "react";
+import { fetchData } from "./../utilities/fetchData";
+import MainBody from "./MainBody";
 const Navbar = () => {
+  const [data, setData] = useState({ articles: [] });
+  const apiUrls = [
+    "http://localhost:8000/v2/top-headlines?category=general",
+    "http://localhost:8000/v2/top-headlines?category=business",
+    "http://localhost:8000/v2/top-headlines?category=entertainment",
+    "http://localhost:8000/v2/top-headlines?category=health",
+    "http://localhost:8000/v2/top-headlines?category=science",
+    "http://localhost:8000/v2/top-headlines?category=business",
+    "http://localhost:8000/v2/top-headlines?category=sports",
+    "http://localhost:8000/v2/top-headlines?category=technology",
+  ];
+
+  const handleClick = async (api) => {
+    try {
+      const json = await fetchData(api);
+      setData(json);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  useEffect(() => {
+    // Fetch initial data
+    handleClick(apiUrls[0]);
+  }, []);
+
   return (
     <>
       <nav className="border-b border-black py-6 md:py-8">
@@ -77,27 +105,47 @@ const Navbar = () => {
         <div className="container mx-auto mt-6">
           <ul className="flex flex-wrap items-center justify-center gap-5 text-xs font-semibold lg:text-base">
             <li>
-              <a href="#">General</a>
+              <a href="#" onClick={() => handleClick(apiUrls[0])}>
+                General
+              </a>
             </li>
             <li>
-              <a href="#">Business</a>
+              <a onClick={() => handleClick(apiUrls[1])} href="#">
+                Business
+              </a>
             </li>
             <li>
-              <a href="#">Entertainment</a>
+              <a onClick={() => handleClick(apiUrls[2])} href="#">
+                Entertainment
+              </a>
             </li>
             <li>
-              <a href="#">Health</a>
+              <a onClick={() => handleClick(apiUrls[3])} href="#">
+                Health
+              </a>
             </li>
             <li>
-              <a href="#">Science</a>
+              <a onClick={() => handleClick(apiUrls[4])} href="#">
+                Science
+              </a>
             </li>
             <li>
-              <a href="#">Sports</a>
+              <a onClick={() => handleClick(apiUrls[5])} href="#">
+                Sports
+              </a>
             </li>
             <li>
-              <a href="#">Technology</a>
+              <a onClick={() => handleClick(apiUrls[6])} href="#">
+                Technology
+              </a>
             </li>
           </ul>
+        </div>
+        {/* Display the fetched data */}
+        <div>
+          {/* <h2>Fetched Data:</h2> */}
+          <MainBody data={data} />
+          {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
         </div>
       </nav>
     </>
