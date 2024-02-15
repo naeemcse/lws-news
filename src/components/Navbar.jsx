@@ -1,33 +1,8 @@
 import React from "react";
-import { useState, useEffect } from "react";
-import MainBody from "./MainBody";
+
 const Navbar = () => {
-  const [navitem, setNavitem] = React.useState([]);
-  React.useEffect(() => {
-    let ignore = false;
-    const fetchData = async () => {
-      try {
-        const response = await fetch(
-          "https://jsonplaceholder.typicode.com/posts/1/comments"
-        );
-        const data = await response.json();
-        if (!ignore)
-        setNavitem(data);
-      } catch (error) {
-        console.log("error", error);
-      }
-    };
-    fetchData();
-  }, []);
   return (
     <>
-    <MainBody/>
-      {/* Navitem */}
-      {/* {navitem.map((item) => (
-        <div key={item.id}>{item.name}</div>
-      ))} */}
-      {/* Navitem Ends */}
-
       <nav className="border-b border-black py-6 md:py-8">
         <div className="container mx-auto flex flex-wrap items-center justify-between gap-6">
           {/* date */}
